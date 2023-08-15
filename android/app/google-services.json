@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959380202507",
+    "project_id": "quakkaapp",
+    "storage_bucket": "quakkaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959380202507:android:cb120c42ce3b96f98a530e",
+        "android_client_info": {
+          "package_name": "com.quokkaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959380202507-ru12aqf8k2s612vncjv2jrerdvd7f41i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-2o4G2OsTi5qHwaAzFTRYZCjpP4W-13M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959380202507-ru12aqf8k2s612vncjv2jrerdvd7f41i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
