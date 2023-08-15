@@ -1,59 +1,102 @@
-// import 'react-native-gesture-handler';
-// import { View, Text } from 'react-native'
-// import React from 'react'
-// import { NavigationContainer } from '@react-navigation/native'
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import HomeScreen from './HomeScreen';
-// import ProfileScreen from './ProfileScreen';
 
-// export default function MyDrawer() {
-//     const Drawer = createDrawerNavigator();
-
-//   return (
-//     <NavigationContainer>
-//       <Drawer.Navigator initialRouteName="Home">
-//         <Drawer.Screen name="Home" component={HomeScreen} />
-//         <Drawer.Screen name="Notifications" component={ProfileScreen} />
-//       </Drawer.Navigator>
-//    </NavigationContainer>
-//   )
-// }
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Modal, TouchableOpacity, ScrollView, Image } from 'react-native';
 import React, { useEffect,useState } from 'react'
 import EncryptedStorage from 'react-native-encrypted-storage';
-const generateRandomData = () => ({
-  tasksDone: Math.floor(Math.random() * 20),
-  tasksPlanned: Math.floor(Math.random() * 10) + 1,
-  // totalTasks: ,
-});
+import HomeScreen from './HomeScreen';
+import QuokkaImage from '../assets/images/menu.png'
 
+
+const CustomDrawer = ({ visible, onClose, onMenuItemPress, onLogout }) => {
+ 
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.drawerContainer}>
+        
+        <TouchableOpacity style={styles.drawerItem} onPress={() => onMenuItemPress('home')}>
+          <Text style={styles.drawerItemText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.drawerItem} onPress={() => onMenuItemPress('profile')}>
+          <Text style={styles.drawerItemText}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.drawerItem} onPress={onLogout}>
+          <Text style={styles.drawerItemText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+};
 const DashboardCard = ({ title, value }) => (
   <View style={styles.card}>
     <Text style={styles.cardTitle}>{title}</Text>
     <Text style={styles.cardValue}>{value}</Text>
   </View>
 );
-export default function MyDrawer() {
+const generateRandomData = () => ({
+  tasksDone: Math.floor(Math.random() * 20),
+  tasksPlanned: Math.floor(Math.random() * 10) + 1,
+  // totalTasks: ,
+});
+export default function MyDrawer({navigation}) {
+   
+    const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+    const [selectedMenuItem, setSelectedMenuItem] = useState('');
     const [dashboardData, setDashboardData] = useState(generateRandomData());
-    const [user,setUser] = useState("")
-    useEffect(() =>{
-      ( async () => {
-          console.log("inside");
-          const userInfo = await EncryptedStorage.getItem("user")
-          console.log("user info",userInfo);
-          setUser(userInfo)
-          
-          
-      })()
-    },[])
+  const [user,setUser] = useState("")
+  useEffect(() =>{
+    ( async () => {
+        console.log("inside");
+        const userInfo = await EncryptedStorage.getItem("user")
+        console.log("user info",userInfo);
+        setUser(userInfo)
+        
+        
+    })()
+  },[])
   const refreshData = () => {
     setDashboardData(generateRandomData());
   };
+    const openDrawer = () => {
+      setIsDrawerVisible(true);
+    };
+  
+    const closeDrawer = () => {
+      setIsDrawerVisible(false);
+    };
+  
+    const handleMenuItemPress = (menuItem) => {
+      setSelectedMenuItem(menuItem);
+      closeDrawer();
+    };
+  
+    const handleLogout = () => {
+
+      closeDrawer();
+      navigation.navigate('LoginPage')
+      EncryptedStorage.clear()
+    };
+  
 
   return (
+    <View style={styles.container}>
+    <TouchableOpacity  onPress={openDrawer}>
+    <Image style={styles.menuIcon} source={QuokkaImage} />
+    </TouchableOpacity>
+    <CustomDrawer
+      visible={isDrawerVisible}
+      onClose={closeDrawer}
+      onMenuItemPress={handleMenuItemPress}
+      onLogout={handleLogout}
+    />
+    {selectedMenuItem === 'home' && <HomeScreen/>}
+    {selectedMenuItem === 'profile' && <Text>Profile Screen</Text>}
     <ScrollView style={styles.container}>
       <View >
-      <Text style={styles.header}>Dashboard</Text>
+     
       <Text style={styles.text}>Welcome {user}</Text>
       </View>
       <DashboardCard title="Total Tasks" value={dashboardData.tasksDone+dashboardData.tasksPlanned} />
@@ -65,6 +108,8 @@ export default function MyDrawer() {
         </TouchableOpacity>
       </View>
     </ScrollView>
+  </View>
+   
   );
   
 }
@@ -119,4 +164,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  drawerContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    width: '70%',
+    paddingTop: 50,
+  },
+  drawerItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+  },
+  drawerItemText: {
+    fontSize: 18,
+  },
+  menuIcon:{
+    width:30,
+    height:30
+  }
 });

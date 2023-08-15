@@ -1,4 +1,3 @@
-// import { LOGIN_USER } from "../../../constants/reducer_names";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {

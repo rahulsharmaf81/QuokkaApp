@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 export const initialState = {
   // isLoadingBack: false,
   token: "",
   loginUserDetails: "",
+  userState:false
 };
 
 const userSlice = createSlice({
@@ -13,6 +15,9 @@ const userSlice = createSlice({
     login: (state, { payload }) => {
       state.token = payload.token;
       state.loginUserDetails = payload.loginUserDetails;
+      EncryptedStorage.setItem("token", payload.token)
+      EncryptedStorage.setItem("user", payload.loginUserDetails)
+      state.userState = true
     },
     // updateLoadingState: (state, { payload }) => {
     //   state.isLoadingBack = payload.isLoadingBack;

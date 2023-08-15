@@ -34,7 +34,7 @@ export default function SignupScreen({navigation}:any) {
     }
 
     if (!formData.password) {
-      //Passw0rdP
+     
       errors.password = 'Password is required';
       valid = false;
     }else if(formData.password){
@@ -65,7 +65,7 @@ export default function SignupScreen({navigation}:any) {
 
   const handleSignup = () => {
     if (validateForm()) {
-      // Perform signup logic here
+   
       console.log("form data",formData);
       createUserWithEmailAndPassword(auth,formData.email,formData.password).then(
         userCreditials => {
@@ -74,7 +74,7 @@ export default function SignupScreen({navigation}:any) {
           Alert.alert('Success', 'Authentication successful', [
             {
               text: 'OK',
-              onPress: () => navigation.navigate('LoginPage'), // Navigate to "Target" screen
+              onPress: () => navigation.navigate('LoginPage'), 
             },
           ]);
         }

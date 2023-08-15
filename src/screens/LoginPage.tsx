@@ -9,8 +9,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { LoginActions } from '../store/slices/user_slice';
 export default function LoginPage({navigation}:any) {
   const dispatch = useDispatch()
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -67,14 +66,11 @@ export default function LoginPage({navigation}:any) {
           console.log("user",user);
           const user_email = user.email
           const user_token = user.refreshToken
-          // dispatch(ChatActions.servicePlan(res?.data?.result[0])) 
-          EncryptedStorage.setItem("user",user_email)
-          EncryptedStorage.setItem("token",user_token)
           dispatch(LoginActions.login({loginUserDetails:user_email,token:user_token})) 
           Alert.alert('Successfully', 'Logged In', [
             {
               text: 'OK',
-              onPress: () =>navigation.replace('DashBoard'), // Navigate to "Target" screen
+              onPress: () =>navigation.replace('DashBoard'), 
             },
           ]);
           
@@ -83,7 +79,7 @@ export default function LoginPage({navigation}:any) {
           Alert.alert('Failed', 'Authentication Failed', [
             {
               text: 'OK',
-              // onPress: () => navigation.navigate('LoginPage'), // Navigate to "Target" screen
+              // onPress: () => navigation.navigate('LoginPage'), 
             },
           ]);
           

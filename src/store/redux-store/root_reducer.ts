@@ -1,15 +1,16 @@
-import * as Helper from "./reset_action";
 
-// import { LOGIN_USER } from "../../constants/reducer_names";
+import LoginUserReducer from "../slices/user_slice";
+import SignUpReducer from "../slices/sign_up"
+
 import { combineReducers } from "redux";
 
 const combinedReducers = combineReducers({
-  loginUser:Helper.LoginUserReducerWrapper,
-  signUp:Helper.SignUpReducerWrapper
+  loginUser:LoginUserReducer,
+  signUp:SignUpReducer
 });
 
 const rootReducer = (state: any, action: any) => {
-//   if (action.type === `${LOGIN_USER}/logout`) state = undefined;
+
   return combinedReducers(state, action);
 };
 export default rootReducer;

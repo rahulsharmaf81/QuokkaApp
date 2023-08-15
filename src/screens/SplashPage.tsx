@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View,ImageBackground ,Image,Text} from 'react-native';
+import React, { useEffect } from 'react';
+import {  View,ImageBackground ,Image,Text} from 'react-native';
 import {styles} from '../styles/splash_page_style';
 import { useDispatch,useSelector } from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
-// import { getStyleAndDimension } from '../styles/common_screen_details';
-// import { setGlobalData } from '../../../App';
-// import BackImg from '../assets/images/'
+
 import QuokkaImage from '../assets/images/quokka.jpg'
-// import Duke from '../../assets/images/dukebg.png'
+
 import BackImg from '../assets/images/backImage.jpg'
+import { LoginActions } from '../store/slices/user_slice';
 
 const SplashPage = ({ navigation }) => {
-//   const { styles, screenHeight } = getStyleAndDimension(SplashStyle);
-// const userInfo =  useSelector((state: any) => state.loginUser.loginUserDetails);
-// console.log("userInfo");
+
+const {userState} =  useSelector((state: any) => state.loginUser);
+const dispatch = useDispatch()
+console.log("userState",userState);
 
   useEffect(() => {
     (async () => {
       let nextPage = ''; 
-      //updating app.js localStorageData value from here
+      
       const userLocalStorageCheck = await EncryptedStorage.getItem("user")
+      if(userLocalStorageCheck){
+        dispatch(LoginActions.login({userState:true})) 
+      }
       // let updateStatus = false
       console.log("user status",userLocalStorageCheck);
       if (userLocalStorageCheck) {
